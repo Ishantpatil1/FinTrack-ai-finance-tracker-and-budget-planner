@@ -5,23 +5,33 @@ import Register from './pages/Register';
 import Homepage from './pages/Homepage';
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
-import './App.css' 
+import Dashboard from './pages/Dashboard';
+import PrivateRoute from './components/PrivateRoute';
+import './App.css'
 
 
 function App() {
   return (
     <>
-    <Router>
-      < Navbar />
+      <Router>
+        < Navbar />
 
-      <Routes>
-        <Route path='/' element={<Homepage />}/>
-        <Route path='/login' element={<Login />}/>
-        <Route path='/register' element={<Register />}/>
-      </Routes>
+        <Routes>
+          <Route path='/' element={<Homepage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route
+            path='/dashboard'
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
 
-      < Footer />
-    </Router>
+        < Footer />
+      </Router>
     </>
   )
 }

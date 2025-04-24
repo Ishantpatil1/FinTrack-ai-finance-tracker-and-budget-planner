@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    transactions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction'
+    }]
 }, { timestamps: true });
 
 // Hash password before saving
