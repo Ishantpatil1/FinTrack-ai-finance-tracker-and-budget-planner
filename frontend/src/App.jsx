@@ -15,7 +15,7 @@ function App() {
     <>
       <Router>
         < Navbar />
-
+      <main>
         <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
@@ -29,7 +29,7 @@ function App() {
             }
           />
         </Routes>
-
+      </main>
         < Footer />
       </Router>
     </>

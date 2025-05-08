@@ -1,0 +1,27 @@
+/* footer.css */
+
+footer {
+  background-color: #343a40; /* Dark background color */
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto; /* Ensure footer stays at the bottom */
+  width: 100%;
+  position: relative;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  footer p {
+    font-size: 12px;
+  }
+}
