@@ -9,7 +9,7 @@ const AddTransactionForm = ({ fetchTransactions }) => {
     type: 'income', // Default type
     date: '',
   });
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewTransaction((prev) => ({

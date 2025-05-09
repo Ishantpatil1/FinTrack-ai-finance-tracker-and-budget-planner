@@ -6,6 +6,7 @@ import Homepage from './pages/Homepage';
 import Navbar from './components/navbar';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
+import AboutPage from "./pages/AboutPage";
 import PrivateRoute from './components/PrivateRoute';
 import './App.css'
 
@@ -18,6 +19,7 @@ function App() {
       <main>
         <Routes>
           <Route path='/' element={<Homepage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route

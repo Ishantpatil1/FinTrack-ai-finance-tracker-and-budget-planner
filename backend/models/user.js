@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    budget: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Budget',
+    },
     transactions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Transaction'

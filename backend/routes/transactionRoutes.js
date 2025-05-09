@@ -118,4 +118,31 @@ router.delete('/transaction/:id', verifyToken, async (req, res) => {
     }
 });
 
+// routes/transactionRoutes.js
+router.get('/budget-status', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const expenses = await Transaction.aggregate([
+      { $match: { userId: user._id, type: 'expense' } },
+      {
+        $group: {
+          _id: null,
+          totalExpense: { $sum: '$amount' },
+        },
+      },
+    ]);
+
+    const totalExpense = expenses[0]?.totalExpense || 0;
+    const overBudget = totalExpense > user.budget;
+
+    res.json({ totalExpense, budget: user.budget, overBudget });
+  } catch (err) {
+    console.error('Budget status error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 module.exports = router;

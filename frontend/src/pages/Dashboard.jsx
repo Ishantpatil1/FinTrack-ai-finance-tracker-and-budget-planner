@@ -7,7 +7,7 @@ import FilterForm from '../components/FilterForm';
 import AddTransactionForm from '../components/AddTransactionForm';
 import EditTransactionForm from '../components/EditTransactionForm';
 import Budget from '../components/Budget';
-
+import DashboardCharts from '../components/DashboardCharts';
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
@@ -19,7 +19,8 @@ const Dashboard = () => {
   const [endDate, setEndDate] = useState('');
   const [showAddTransactionForm, setShowAddTransactionForm] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
-  
+  const [budgetWarning, setBudgetWarning] = useState(null);
+
   const fetchTransactions = async (applyFilters = false) => {
     const token = localStorage.getItem('token');
 
@@ -90,8 +91,26 @@ const Dashboard = () => {
     setEditingTransaction(null);
   };
 
+  const checkBudgetStatus = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await axios.get('http://localhost:3000/api/budget-status', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const { overBudget, totalExpense } = res.data;
+      if (overBudget) {
+        setBudgetWarning(`You've spend ₹${totalExpense} of your budget!`);
+      } else {
+        setBudgetWarning(null);
+      }
+    } catch (err) {
+      console.error('Failed to check budget status:', err);
+    }
+  };
+
   useEffect(() => {
     fetchTransactions();
+    checkBudgetStatus();
   }, []);
 
   return (
@@ -99,7 +118,8 @@ const Dashboard = () => {
       <Navbar />
       <div className="container my-5">
         <h2 className="text-center mb-4">Welcome to Your Dashboard</h2>
-      <Budget />
+        <Budget />
+        <DashboardCharts transactions={transactions} />
         <FilterForm
           type={type}
           setType={setType}
@@ -121,6 +141,12 @@ const Dashboard = () => {
 
         {showAddTransactionForm && (
           <AddTransactionForm fetchTransactions={fetchTransactions} />
+        )}
+
+        {budgetWarning && (
+          <div className="alert alert-warning text-center">
+            {budgetWarning}
+          </div>
         )}
 
         {loading ? (

@@ -5,7 +5,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
-const budgetRoutes = require('./routes/budgetRoutes')
+const budgetRoutes = require('./routes/budgetRoutes');
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 
 dotenv.config(); 
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use('/api', authRoutes);
 app.use('/api', transactionRoutes);
 app.use('/api/budget', budgetRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 
 app.get("/api", (req, res) => {
