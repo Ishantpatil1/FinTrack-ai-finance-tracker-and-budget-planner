@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.13.2",
+    "node-nlp": "^5.0.0-alpha.5",
     "nodemon": "^3.1.9",
     "recharts": "^2.15.3"
   }

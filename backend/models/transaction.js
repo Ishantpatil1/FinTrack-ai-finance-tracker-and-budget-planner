@@ -25,7 +25,20 @@ const transactionSchema = new mongoose.Schema({
     },
     note: {
         type: String
-    }
+    },
+    isRecurring: {
+        type: Boolean,
+        default: false
+    },
+    frequency: {
+        type: String,
+        enum: ['daily', 'weekly', 'monthly', ''],
+        default: ''
+    },
+    endDate: {
+        type: Date,
+        default: null
+    },
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

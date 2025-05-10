@@ -38,7 +38,7 @@ const Login = () => {
 
     return (
         <motion.div
-            className="d-flex justify-content-center align-items-center vh-100 bg-light"
+            className="d-flex justify-content-center align-items-center vh-100 "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -46,7 +46,7 @@ const Login = () => {
             <div className="bg-white p-4 p-md-5 rounded shadow w-100" style={{ maxWidth: '400px' }}>
                 <h2 className="mb-4 text-center">Login to Your Account</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
+                    <div className="mb-3 ">
                         <label htmlFor="email" className="form-label">Email</label>
                         <input
                             type="email"

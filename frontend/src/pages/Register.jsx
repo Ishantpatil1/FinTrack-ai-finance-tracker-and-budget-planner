@@ -36,7 +36,7 @@ const Register = () => {
 
     return (
         <motion.div
-            className="d-flex justify-content-center align-items-center vh-100 bg-light"
+            className="d-flex justify-content-center align-items-center vh-100 "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

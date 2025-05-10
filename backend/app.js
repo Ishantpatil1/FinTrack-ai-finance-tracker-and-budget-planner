@@ -7,6 +7,8 @@ const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const extractRoute = require('./routes/extractRoute');
+const bodyParser = require('body-parser');
 
 
 dotenv.config(); 
@@ -24,8 +26,10 @@ async function main() {
 
 app.use(cors());
 app.use(express.json());
+// app.use(bodyParser.json());
 app.use('/api', authRoutes);
 app.use('/api', transactionRoutes);
+app.use('/api', extractRoute);
 app.use('/api/budget', budgetRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 

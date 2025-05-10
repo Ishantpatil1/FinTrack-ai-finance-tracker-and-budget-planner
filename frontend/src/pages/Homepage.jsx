@@ -4,35 +4,32 @@ import { motion } from 'framer-motion';
 const LandingPage = () => {
   return (
     <div>
-      {/* Navbar */}
-      {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <a className="navbar-brand" href="#">SmartFinance</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item"><a className="nav-link" href="#features">Features</a></li>
-              <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
-              <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
-              <li className="nav-item"><a className="btn btn-primary ms-3" href="/login">Login</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav> */}
 
       {/* Hero Section */}
       <motion.section
-        className="text-white bg-primary py-5 text-center mt-5"
+        className=" text-center mt-5"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
         <div className="container">
-          <h1 className="display-4 fw-bold">Take Control of Your Finances</h1>
-          <p className="lead">SmartFinance helps you track expenses, manage budgets, and reach your goals effortlessly.</p>
-          <a href="/register" className="btn btn-light btn-lg mt-3">Get Started</a>
+          <h1 className="display-1 fw-bold"
+            style={{
+              background: 'linear-gradient(90deg,rgb(81, 0, 255),rgb(169, 27, 235))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              display: 'inline-block'
+            }}
+          >Manage Your Finances <br /> with Intelligence </h1>
+          <p className="lead"><b>An AI-powered financial management platform that helps you track, <br /> analyze, and optimize your spending with real-time insights.</b></p>
+          <button className='btn btn-light btn-lg mt-3 text-white'>
+            <a class="icon-link icon-link-hover link-success link-underline-success link-underline-opacity-25" href="/register">
+              Get Started
+              <svg xmlns="http://www.w3.org/2000/svg" class="bi" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+              </svg>
+            </a>
+          </button>
         </div>
       </motion.section>
 
