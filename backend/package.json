@@ -19,11 +19,14 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "faker": "^6.6.6",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.13.2",
     "node-nlp": "^5.0.0-alpha.5",
     "nodemon": "^3.1.9",
-    "recharts": "^2.15.3"
+    "pdfkit": "^0.17.1",
+    "recharts": "^2.15.3",
+    "uuid": "^11.1.0"
   }
 }

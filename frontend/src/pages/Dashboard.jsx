@@ -6,13 +6,25 @@ import Footer from '../components/Footer';
 import FilterForm from '../components/FilterForm';
 import AddTransactionForm from '../components/AddTransactionForm';
 import EditTransactionForm from '../components/EditTransactionForm';
+import GenerateReport from '../components/GenerateReport';
 import Budget from '../components/Budget';
-import { BarChart, Bar, PieChart, Pie, Cell, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa66cc', '#33b5e5'];
 
 const Dashboard = () => {
-  // const [name, setName] = useState('');
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -124,12 +136,13 @@ const Dashboard = () => {
       const start = new Date(date.setDate(date.getDate() - date.getDay()));
       return `Week of ${start.toLocaleDateString()}`;
     }
-    if (view === 'monthly') return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+    if (view === 'monthly')
+      return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
     if (view === 'yearly') return `${date.getFullYear()}`;
-    return new Date(dateStr).toLocaleDateString(); // for custom
+    return new Date(dateStr).toLocaleDateString();
   };
 
-  const filteredTransactions = transactions.filter(txn => {
+  const filteredTransactions = transactions.filter((txn) => {
     if (trendView !== 'custom') return true;
     if (!customStart || !customEnd) return true;
     const txnDate = new Date(txn.date);
@@ -138,22 +151,21 @@ const Dashboard = () => {
 
   const chartData = filteredTransactions.reduce((acc, txn) => {
     const key = groupBy(txn.date, trendView);
-    const found = acc.find(item => item.date === key);
+    const found = acc.find((item) => item.date === key);
     if (found) {
       found[txn.type] += txn.amount;
     } else {
       acc.push({
         date: key,
         income: txn.type === 'income' ? txn.amount : 0,
-        expense: txn.type === 'expense' ? txn.amount : 0
+        expense: txn.type === 'expense' ? txn.amount : 0,
       });
     }
     return acc;
   }, []);
 
-
   const pieData = transactions.reduce((acc, txn) => {
-    const found = acc.find(item => item.name === txn.category);
+    const found = acc.find((item) => item.name === txn.category);
     if (found) {
       found.value += txn.amount;
     } else {
@@ -161,6 +173,27 @@ const Dashboard = () => {
     }
     return acc;
   }, []);
+
+  const sendReceipt = async (txn) => {
+    const email = prompt('Enter the email address to send the receipt:');
+    if (!email) return alert('Email is required to send the receipt.');
+    const payload = {
+      email,
+      data: {
+        amount: txn.amount,
+        date: new Date(txn.date).toLocaleDateString(),
+        category: txn.category,
+        note: txn.note || '',
+      },
+    };
+    try {
+      const response = await axios.post('http://localhost:3000/api/send-receipt', payload);
+      alert(response.data.message || 'Receipt sent successfully!');
+    } catch (error) {
+      console.error('Error sending receipt:', error);
+      alert('Failed to send receipt. Please try again.');
+    }
+  };
 
   return (
     <>
@@ -180,7 +213,6 @@ const Dashboard = () => {
           handleFilter={handleFilter}
         />
 
-
         <button
           className="btn btn-primary mb-4"
           onClick={() => setShowAddTransactionForm(!showAddTransactionForm)}
@@ -193,20 +225,33 @@ const Dashboard = () => {
         )}
 
         {budgetWarning && (
-          <div className="alert alert-warning text-center">
-            {budgetWarning}
-          </div>
+          <div className="alert alert-warning text-center">{budgetWarning}</div>
         )}
 
         <ul className="nav nav-tabs mb-3">
           <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'overview' && 'active'}`} onClick={() => setActiveTab('overview')}>Overview</button>
+            <button
+              className={`nav-link ${activeTab === 'overview' && 'active'}`}
+              onClick={() => setActiveTab('overview')}
+            >
+              Overview
+            </button>
           </li>
           <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'trends' && 'active'}`} onClick={() => setActiveTab('trends')}>Trends</button>
+            <button
+              className={`nav-link ${activeTab === 'trends' && 'active'}`}
+              onClick={() => setActiveTab('trends')}
+            >
+              Trends
+            </button>
           </li>
           <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'breakdown' && 'active'}`} onClick={() => setActiveTab('breakdown')}>Breakdown</button>
+            <button
+              className={`nav-link ${activeTab === 'breakdown' && 'active'}`}
+              onClick={() => setActiveTab('breakdown')}
+            >
+              Breakdown
+            </button>
           </li>
         </ul>
 
@@ -237,12 +282,11 @@ const Dashboard = () => {
                             </h5>
                             <p className="card-text">{txn.note || 'No note'}</p>
                             <p className="card-text">
-                              <small className="text-muted">
-                                {new Date(txn.date).toLocaleDateString()}
-                              </small>
+                              <small className="text-muted">{new Date(txn.date).toLocaleDateString()}</small>
                             </p>
                             <button className="btn btn-primary btn-sm me-2" onClick={() => startEditing(txn)}>Edit</button>
-                            <button className="btn btn-danger btn-sm" onClick={() => handleDeleteTransaction(txn._id)}>Delete</button>
+                            <button className="btn btn-danger btn-sm me-2" onClick={() => handleDeleteTransaction(txn._id)}>Delete</button>
+                            <button className="btn btn-secondary btn-sm" onClick={() => sendReceipt(txn)}>Send Receipt</button>
                           </>
                         )}
                       </div>
@@ -250,13 +294,14 @@ const Dashboard = () => {
                   </div>
                 ))
               )}
+              <GenerateReport />
             </div>
           )
         )}
 
         {activeTab === 'trends' && (
           <>
-            <div className="mb-3 d-flex align-items-center gap-3">
+            <div className="mb-3 d-flex flex-wrap align-items-center gap-3">
               <label htmlFor="trendView">Select View:</label>
               <select
                 id="trendView"
@@ -288,39 +333,40 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div style={{ height: 400 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={chartData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="income" fill="#28a745" name="Income" />
-                  <Bar dataKey="expense" fill="#dc3545" name="Expense" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="income" fill="#00C49F" />
+                <Bar dataKey="expense" fill="#FF8042" />
+              </BarChart>
+            </ResponsiveContainer>
           </>
         )}
 
         {activeTab === 'breakdown' && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <ResponsiveContainer width="50%" height={300}>
-              <PieChart>
-                <Pie dataKey="value" data={pieData} cx="50%" cy="50%" outerRadius={100} label>
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                outerRadius={150}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
         )}
       </div>
       <Footer />

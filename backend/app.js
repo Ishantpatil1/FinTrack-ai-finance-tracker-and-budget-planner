@@ -8,7 +8,9 @@ const transactionRoutes = require('./routes/transactionRoutes');
 const budgetRoutes = require('./routes/budgetRoutes');
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const extractRoute = require('./routes/extractRoute');
-const bodyParser = require('body-parser');
+const emailReceipt = require('./routes/emailReceipt');
+const reportRoute = require('./routes/reportRoute');
+// const bodyParser = require('body-parser');
 
 
 dotenv.config(); 
@@ -29,7 +31,9 @@ app.use(express.json());
 // app.use(bodyParser.json());
 app.use('/api', authRoutes);
 app.use('/api', transactionRoutes);
+app.use('/api', reportRoute);
 app.use('/api', extractRoute);
+app.use('/api', emailReceipt);
 app.use('/api/budget', budgetRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 

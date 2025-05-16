@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.js');
 
-protect = async (req, res, next) => {
+const protect = async (req, res, next) => {
     let token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Not authorized, no token' });
 
@@ -16,7 +16,7 @@ protect = async (req, res, next) => {
 
 
 // Middleware to verify JWT
-verifyToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) return res.status(401).json({ message: 'No token provided' });
 
