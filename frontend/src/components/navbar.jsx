@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark-black bg-light fixed-top">
             <div className="container">
-                <Link className="navbar-brand" to="/">FinTrack</Link>
+                <Link className="navbar-brand" to="/"><h3><i>FinTrack</i></h3></Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -35,9 +35,17 @@ const Navbar = () => {
                                 </li>
                             </>
                         ) : (
-                            <li className="nav-item">
-                                <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
+                                </li>
+
+                                <li className="nav-item">
+                                    <Link to="/ai-budget" className="nav-link">AI Budget Planner</Link>
+                                </li>
+
+                            </>
+
                         )}
                     </ul>
                 </div>

@@ -1,11 +1,10 @@
-/* footer.css */
+/* Footer.css */
 
 footer {
-  background-color: #343a40; /* Dark background color */
+  background-color: #343a40;
   color: white;
   text-align: center;
   padding: 1rem;
-  margin-top: auto; /* Ensure footer stays at the bottom */
   width: 100%;
   position: relative;
 }
