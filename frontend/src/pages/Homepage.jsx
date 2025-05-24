@@ -38,6 +38,55 @@ const LandingPage = () => {
         </div>
       </motion.section>
       <br />
+
+      {/* AI Finance Image Section - Dark Theme, Responsive, Image Left */}
+      <motion.section
+        className="py-5"
+        style={{
+          backgroundColor: '#121212',
+          color: '#f1f1f1',
+        }}
+        initial={{ opacity: 0, scale: 0.9, y: 100 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1.2 }}
+        viewport={{ once: true }}
+      >
+        <div className="container d-flex flex-column-reverse flex-md-row align-items-center justify-content-between gap-4">
+          {/* Text Content */}
+          <div className="text-center text-md-start mt-4 mt-md-0">
+            <motion.h2
+              className="fw-bold"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              style={{ fontSize: '2rem' }}
+            >
+              Smarter Tool. Smarter Money Management.
+            </motion.h2>
+            <p className="mt-3" style={{ fontSize: '1.1rem', color: '#cccccc' }}>
+              Harness the power of AI to track spending, optimize savings, and predict future financial trends. Your intelligent budgeting partner is here.
+            </p>
+          </div>
+
+          {/* Image Content */}
+          <motion.img
+            src="/finance.jpg"
+            alt="AI Smart Finance Illustration"
+            className="shadow-lg"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              width: '80%',
+              maxWidth: '500px',
+              borderRadius: '20px',
+              boxShadow: '0 10px 25px rgba(255, 255, 255, 0.1)',
+            }}
+          />
+        </div>
+      </motion.section>
+
+
+
       {/* Features Section */}
       <section id="features" className="py-5 ">
         <div className="container">
@@ -109,7 +158,7 @@ const LandingPage = () => {
             </div>
             <div className="col-md-3">
               <motion.div whileHover={{ scale: 1.05 }} className="p-3">
-                <h5>2. Auto Track</h5>
+                <h5>2. Add or Track</h5>
                 <p>Transactions are added and categorized automatically in real-time.</p>
               </motion.div>
             </div>
@@ -129,32 +178,6 @@ const LandingPage = () => {
         </div>
       </section>
       <br />
-      {/* Testimonials Section
-      <section className="py-5 text-center">
-        <div className="container">
-          <h2 className="mb-4">What Our Users Say</h2>
-          <div className="row">
-            <div className="col-md-4">
-              <blockquote className="blockquote">
-                <p>"SmartFinance helped me save ₹15,000 in 3 months by eliminating wasteful spending."</p>
-                <footer className="blockquote-footer">Riya, Student</footer>
-              </blockquote>
-            </div>
-            <div className="col-md-4">
-              <blockquote className="blockquote">
-                <p>"I finally feel in control of my finances thanks to the budget tracking features."</p>
-                <footer className="blockquote-footer">Arjun, Freelancer</footer>
-              </blockquote>
-            </div>
-            <div className="col-md-4">
-              <blockquote className="blockquote">
-                <p>"The AI insights and visual reports are game-changing for financial planning!"</p>
-                <footer className="blockquote-footer">Neha, Software Engineer</footer>
-              </blockquote>
-            </div>
-          </div>
-        </div>
-      </section> */}
 
       {/* About Section */}
       <section id="about" className="bg-light py-5 text-center">
@@ -182,6 +205,16 @@ const LandingPage = () => {
           </form>
         </div>
       </section>
+
+      {/* Sponsorship Section */}
+      {/* <section className="bg-white py-4 text-center border-top">
+        <div className="container">
+          <p className="lead mb-0">
+            <strong>Sponsored by:</strong> <span style={{ color: '#5e17eb'}}> <a href="https://www.ezioinfotech.com/" style={{}}>Ezio InfoTech Pvt Ltd</a> </span>
+          </p>
+        </div>
+      </section> */}
+
 
       {/* Footer Call-to-Action */}
       <footer className="bg-dark text-white text-center py-4">

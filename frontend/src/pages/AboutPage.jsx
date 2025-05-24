@@ -1,5 +1,3 @@
-// frontend/src/pages/AboutPage.jsx
-
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -23,25 +21,25 @@ const itemVariants = {
 
 const features = [
     {
-        icon: "💰",
-        title: "AI-Powered Insights",
+        image: "https://cdn-icons-png.flaticon.com/512/9799/9799759.png",
+        title: "Smart Insights",
         description:
             "Our AI analyzes your past spending to provide real-time suggestions that help you save more and spend smarter.",
     },
     {
-        icon: "📊",
+        image: "https://cdn-icons-png.flaticon.com/512/4149/4149658.png",
         title: "Dynamic Visualizations",
         description:
             "Understand your finances at a glance with interactive charts and personalized dashboards.",
     },
     {
-        icon: "🔒",
+        image: "https://cdn-icons-png.flaticon.com/512/3064/3064197.png",
         title: "Secure & Private",
         description:
             "Your financial data is encrypted end-to-end, ensuring your privacy and security are always protected.",
     },
     {
-        icon: "🤖",
+        image: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
         title: "Budget Automation",
         description:
             "Set goals and let our AI auto-adjust your budgets monthly to keep you on track with minimal effort.",
@@ -51,39 +49,48 @@ const features = [
 const AboutPage = () => {
     return (
         <motion.div
-            className="min-h-screen mt-16 sm:mt-20 md:mt-24 px-6 sm:px-10 py-12 bg-gradient-to-r from-indigo-100 to-purple-200 text-gray-800"
+            className="container mt-5 pt-5"
             initial="hidden"
             animate="visible"
             variants={containerVariants}
         >
-            <motion.h1 className="text-4xl mt-5 sm:text-5xl font-bold mb-6 text-center" variants={itemVariants}>
-                About SmartBudgetAI
+            <motion.h1
+                className="text-center mb-4"
+                variants={itemVariants}
+            >
+                <strong>About Smart Finance Tracker</strong>
             </motion.h1>
 
             <motion.p
-                className="text-lg sm:text-xl mb-12 max-w-4xl mx-auto text-center leading-relaxed"
+                className="text-center lead mb-5"
                 variants={itemVariants}
             >
                 SmartBudgetAI is your intelligent partner in personal finance. Powered by AI, our platform tracks expenses,
                 predicts spending habits, and helps you build smarter budgets tailored to your lifestyle.
             </motion.p>
 
-            <motion.div
-                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 px-2 md:px-10"
-                variants={containerVariants}
-            >
+            <div className="row">
                 {features.map((feature, index) => (
                     <motion.div
                         key={index}
-                        className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-start gap-3 transition-transform hover:scale-105 hover:shadow-2xl duration-300"
+                        className="col-md-6 col-lg-3 mb-4"
                         variants={itemVariants}
                     >
-                        <div className="text-4xl">{feature.icon}</div>
-                        <h2 className="text-xl font-semibold">{feature.title}</h2>
-                        <p className="text-sm text-gray-600">{feature.description}</p>
+                        <div className="card h-100 shadow-sm border-0 transition-transform" style={{ transition: 'transform 0.3s' }}>
+                            <img
+                                src={feature.image}
+                                alt={feature.title}
+                                className="card-img-top p-3"
+                                style={{ height: "120px", objectFit: "contain" }}
+                            />
+                            <div className="card-body text-center">
+                                <h5 className="card-title">{feature.title}</h5>
+                                <p className="card-text text-muted">{feature.description}</p>
+                            </div>
+                        </div>
                     </motion.div>
                 ))}
-            </motion.div>
+            </div>
         </motion.div>
     );
 };
