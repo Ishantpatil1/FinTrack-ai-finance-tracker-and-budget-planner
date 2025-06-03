@@ -13,9 +13,16 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
             <div className="container">
-                <Link className="navbar-brand text-accent" to="/">
-                    <h3 className="fw-bold mb-0">💰 FinTrack</h3>
+                <Link className="navbar-brand d-flex align-items-center gap-2 text-accent" to="/">
+                   <img
+    src="/logo2.jpg"
+    alt="FinTrack Logo"
+    className="rounded-circle"
+    style={{ width: '30px', height: '30px', objectFit: 'cover' }}
+/>
+                    <h3 className="fw-bold mb-0">FinTrack</h3>
                 </Link>
+
                 <button
                     className="navbar-toggler"
                     type="button"

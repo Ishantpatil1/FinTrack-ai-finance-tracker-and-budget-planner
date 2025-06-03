@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const LandingPage = () => {
+
   return (
     <div>
 
@@ -186,25 +187,49 @@ const LandingPage = () => {
           <p className="lead">We offer more than just expense tracking. Our platform provides AI-driven insights, simplifies your budgeting journey, and ensures you never lose track of your financial goals. Trusted by students, professionals, and entrepreneurs across India.</p>
         </div>
       </section>
-
+<br />
       {/* Contact Section */}
-      <section id="contact" className="py-5">
+      <motion.section
+        id="contact"
+        className="py-5"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      >
         <div className="container">
-          <h2 className="text-center mb-4">Have a Question?</h2>
-          <form className="mx-auto" style={{ maxWidth: '500px' }}>
+          <h2 className="text-center mb-4 fw-bold">Have a Question?</h2>
+          <p className="text-center mb-5 text-muted">
+            We'd love to hear from you! Reach out and our team will respond promptly.
+          </p>
+          <form
+            className="mx-auto shadow p-4 rounded bg-white"
+            style={{ maxWidth: '600px' }}
+          >
             <div className="mb-3">
-              <input type="text" className="form-control" placeholder="Your Name" required />
+              <label className="form-label fw-semibold">Your Name</label>
+              <input type="text" className="form-control" placeholder="Enter your name" required />
             </div>
             <div className="mb-3">
-              <input type="email" className="form-control" placeholder="Your Email" required />
+              <label className="form-label fw-semibold">Email Address</label>
+              <input type="email" className="form-control" placeholder="Enter your email" required />
             </div>
             <div className="mb-3">
-              <textarea className="form-control" rows="4" placeholder="Your Message" required></textarea>
+              <label className="form-label fw-semibold">Message</label>
+              <textarea className="form-control" rows="4" placeholder="Write your message" required></textarea>
             </div>
-            <button className="btn btn-primary w-100">Send Message</button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              type="submit"
+              className="btn btn-dark w-100"
+            >
+              Send Message ✉️
+            </motion.button>
           </form>
         </div>
-      </section>
+      </motion.section>
+
 
       {/* Sponsorship Section */}
       {/* <section className="bg-white py-4 text-center border-top">
