@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
 
@@ -32,9 +33,9 @@ const LandingPage = () => {
             whileHover={{ scale: 1.05 }}
             className='btn btn-dark btn-lg mt-4'
           >
-            <a className="text-white text-decoration-none" href="/register">
+            <Link className="text-white text-decoration-none" to="/register">
               Get Started →
-            </a>
+            </Link>
           </motion.button>
         </div>
       </motion.section>
@@ -245,7 +246,7 @@ const LandingPage = () => {
       <footer className="bg-dark text-white text-center py-4">
         <div className="container">
           <h4 className="mb-3">Ready to Take Control of Your Finances?</h4>
-          <a href="/register" className="btn btn-outline-light btn-lg">Join SmartFinance Now</a>
+          <Link to="/register" className="btn btn-outline-light btn-lg">Join SmartFinance Now</Link>
         </div>
       </footer>
     </div>

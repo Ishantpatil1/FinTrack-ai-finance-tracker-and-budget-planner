@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -97,7 +98,7 @@ const Login = () => {
                     </button>
 
                     <p className="mt-3 text-center small">
-                        Don't have an account? <a href="/register">Register here</a>
+                        Don't have an account? <Link to="/register">Register here</Link>
                     </p>
                 </form>
             </div>

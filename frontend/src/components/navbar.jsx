@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const isLoggedIn = !!localStorage.getItem('token');
+        const [menuOpen, setMenuOpen] = useState(false);
+        const isLoggedIn = !!localStorage.getItem('token');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -26,41 +27,43 @@ const Navbar = () => {
                 <button
                     className="navbar-toggler"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
                     aria-controls="navbarNav"
-                    aria-expanded="false"
+                    aria-expanded={menuOpen}
                     aria-label="Toggle navigation"
+                    onClick={() => setMenuOpen((s) => !s)}
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         {!isLoggedIn ? (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/">Home</Link>
+                                     <Link className="nav-link text-light" to="/" onClick={() => setMenuOpen(false)}>Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/about">About</Link>
+                                     <Link className="nav-link text-light" to="/about" onClick={() => setMenuOpen(false)}>About</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/login">Login</Link>
+                                     <Link className="nav-link text-light" to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/register">Register</Link>
+                                     <Link className="nav-link text-light" to="/register" onClick={() => setMenuOpen(false)}>Register</Link>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/ai-budget">AI Budget Planner</Link>
+                                     <Link className="nav-link text-light" to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <button className="btn nav-link text-danger" onClick={handleLogout}>
+                                     <Link className="nav-link text-light" to="/ai-budget" onClick={() => setMenuOpen(false)}>AI Budget Planner</Link>
+                                </li>
+                                <li className="nav-item">
+                                     <button className="nav-link btn p-0 text-danger" onClick={() => { setMenuOpen(false); handleLogout(); }}>
                                         Logout
-                                    </button>
+                                     </button>
                                 </li>
                             </>
                         )}
