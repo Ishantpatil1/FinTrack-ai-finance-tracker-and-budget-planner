@@ -16,7 +16,8 @@ const BudgetAI = () => {
         setSuggestion(null);
 
         try {
-            const res = await axios.post('http://localhost:3000/api/ai-budget-suggestion', {
+                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+                const res = await axios.post(`${API_BASE}/ai-budget-suggestion`, {
                 income,
                 fixedExpenses,
                 variableExpenses

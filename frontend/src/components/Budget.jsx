@@ -20,7 +20,8 @@ const Budget = () => {
 
   const fetchBudget = async (m) => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/budget/${m}`, {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const res = await axios.get(`${API_BASE}/budget/${m}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFetchedBudget(res.data);
@@ -34,7 +35,8 @@ const Budget = () => {
 
   const handleSetBudget = async () => {
     try {
-      const res = await axios.post('http://localhost:3000/api/budget/set', { month, amount }, {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const res = await axios.post(`${API_BASE}/budget/set`, { month, amount }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage(res.data.message);

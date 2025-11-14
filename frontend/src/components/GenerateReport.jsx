@@ -43,8 +43,9 @@ const GenerateReport = () => {
 
         setLoading(true);
         try {
+            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
             const response = await axios.post(
-                'http://localhost:3000/api/transaction-report',
+                `${API_BASE}/transaction-report`,
                 { range, format, startDate, endDate, sendTo: email },
                 {
                     headers: {

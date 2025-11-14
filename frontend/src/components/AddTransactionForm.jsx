@@ -33,11 +33,10 @@ const AddTransactionForm = ({ fetchTransactions }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      await axios.post(
-        'http://localhost:3000/api/addnewtransaction',
-        newTransaction,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      await axios.post(`${API_BASE}/addnewtransaction`, newTransaction, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       fetchTransactions();
       setNewTransaction({
         amount: '',
@@ -78,7 +77,8 @@ const AddTransactionForm = ({ fetchTransactions }) => {
     ).then(async ({ data: { text } }) => {
       setOcrText(text);
       try {
-        const response = await axios.post('http://localhost:3000/api/extract', { text });
+        const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+        const response = await axios.post(`${API_BASE}/extract`, { text });
         const extracted = response.data;
         const formattedDate = extracted.date ? formatDate(extracted.date) : '';
         setNewTransaction((prev) => ({
@@ -115,7 +115,8 @@ const AddTransactionForm = ({ fetchTransactions }) => {
       const speechText = event.results[0][0].transcript;
       console.log('🎙️ Speech recognized:', speechText);
       try {
-        const response = await axios.post('http://localhost:3000/api/extract', { text: speechText });
+        const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+        const response = await axios.post(`${API_BASE}/extract`, { text: speechText });
         const extracted = response.data;
         const formattedDate = extracted.date ? formatDate(extracted.date) : '';
         setNewTransaction((prev) => ({

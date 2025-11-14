@@ -24,6 +24,8 @@ import {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa66cc', '#33b5e5'];
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +46,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
 
     try {
-      let url = 'http://localhost:3000/api/transaction';
+      let url = `${API_BASE}/transaction`;
       if (applyFilters) {
         const queryParams = new URLSearchParams();
         if (type) queryParams.append('type', type);
@@ -71,7 +73,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
     try {
       await axios.put(
-        `http://localhost:3000/api/transaction/${transactionId}`,
+        `${API_BASE}/transaction/${transactionId}`,
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -85,10 +87,9 @@ const Dashboard = () => {
   const handleDeleteTransaction = async (transactionId) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(
-        `http://localhost:3000/api/transaction/${transactionId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.delete(`${API_BASE}/transaction/${transactionId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       fetchTransactions();
     } catch (error) {
       console.error('Error deleting transaction:', error);
@@ -111,7 +112,7 @@ const Dashboard = () => {
   const checkBudgetStatus = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.get('http://localhost:3000/api/budget-status', {
+      const res = await axios.get(`${API_BASE}/budget-status`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const { overBudget, totalExpense } = res.data;
@@ -187,7 +188,7 @@ const Dashboard = () => {
       },
     };
     try {
-      const response = await axios.post('http://localhost:3000/api/send-receipt', payload);
+      const response = await axios.post(`${API_BASE}/send-receipt`, payload);
       alert(response.data.message || 'Receipt sent successfully!');
     } catch (error) {
       console.error('Error sending receipt:', error);

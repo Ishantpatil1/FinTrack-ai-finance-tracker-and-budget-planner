@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: fintrack-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && npm run start"
+    # Note: Set the environment variables (MONGO_URL, JWT_SECRET, EMAIL_USER, EMAIL_PASS, API_KEY) in the Render dashboard for this service.
