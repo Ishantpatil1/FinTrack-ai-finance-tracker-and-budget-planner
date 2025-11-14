@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -110,7 +110,7 @@ const Register = () => {
                     </button>
 
                     <p className="mt-3 text-center small">
-                        Already have an account? <a href="/login">Login here</a>
+                        Already have an account? <Link to="/login">Login here</Link>
                     </p>
                 </form>
             </div>
