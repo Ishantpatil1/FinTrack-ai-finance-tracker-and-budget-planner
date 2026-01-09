@@ -8,6 +8,9 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Add modern fallback for text size adjust; keep webkit for older UA in Tailwind base */
+  text-size-adjust: 100%;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -29,6 +32,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+/* Add spec-compliant match-parent before the webkit-prefixed version (satisfies Safari lint) */
+th {
+  text-align: match-parent;
+  text-align: -webkit-match-parent;
+  text-align: inherit;
 }
 
 h1 {

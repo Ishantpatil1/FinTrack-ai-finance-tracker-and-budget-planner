@@ -1,57 +1,105 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.js');
 
-// Token generator
+// Token generator with guard for missing secret
 const generateToken = (id) => {
+    if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not set');
+    }
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d', // Optional: Set token expiry
+        expiresIn: '30d',
     });
 };
 
 // Register user
 module.exports.registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        // Validate environment
+        if (!process.env.JWT_SECRET) {
+            console.error('CRITICAL: JWT_SECRET not configured');
+            return res.status(500).json({ message: 'Server configuration error' });
+        }
+
+        const { name, email, password } = req.body || {};
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Name, email, and password are required' });
+        }
+
+        // Check database connection
+        const mongoose = require('mongoose');
+        if (mongoose.connection.readyState !== 1) {
+            console.error('Database not connected. State:', mongoose.connection.readyState);
+            return res.status(503).json({ message: 'Database connection unavailable' });
+        }
 
         const userExists = await User.findOne({ email });
         if (userExists) return res.status(400).json({ message: "User already exists" });
 
         const user = await User.create({ name, email, password });
         if (user) {
-            res.status(201).json({
+            return res.status(201).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 token: generateToken(user._id),
             });
         } else {
-            res.status(400).json({ message: 'Invalid user data' });
+            return res.status(400).json({ message: 'Invalid user data' });
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error during registration' });
+        console.error('Register error:', err?.stack || err);
+        return res.status(500).json({ 
+            message: 'Server error during registration',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 };
 
 // Login user
 module.exports.loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        // Validate environment
+        if (!process.env.JWT_SECRET) {
+            console.error('CRITICAL: JWT_SECRET not configured');
+            return res.status(500).json({ message: 'Server configuration error' });
+        }
+
+        const { email, password } = req.body || {};
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        // Check database connection
+        const mongoose = require('mongoose');
+        if (mongoose.connection.readyState !== 1) {
+            console.error('Database not connected. State:', mongoose.connection.readyState);
+            return res.status(503).json({ message: 'Database connection unavailable' });
+        }
 
         const user = await User.findOne({ email });
-        if (user && await user.matchPassword(password)) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                token: generateToken(user._id),
-            });
-        } else {
-            res.status(401).json({ message: 'Invalid credentials' });
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
+
+        const isMatch = await user.matchPassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        return res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            token: generateToken(user._id),
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error during login' });
+        console.error('Login error:', err?.stack || err);
+        return res.status(500).json({ 
+            message: 'Server error during login',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 };
 

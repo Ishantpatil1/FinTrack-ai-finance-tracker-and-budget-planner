@@ -17,8 +17,8 @@ const Login = () => {
         setError(null);
 
         try {
-                const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-                const res = await fetch(`${API_BASE}/login`, {
+            const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+            const res = await fetch(`${API_BASE}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
@@ -32,12 +32,24 @@ const Login = () => {
                 localStorage.setItem('token', data.token);
                 navigate('/dashboard');
             } else {
-                setError(data.message || 'Login failed');
+                // Show more specific error messages
+                if (res.status === 503) {
+                    setError('Server is currently unavailable. Please try again later.');
+                } else if (res.status === 500) {
+                    setError(data.message || 'Server error. Please contact support if this persists.');
+                } else {
+                    setError(data.message || 'Login failed');
+                }
             }
         } catch (err) {
             console.error('Login error:', err);
-            setError('Something went wrong');
             setLoading(false);
+            // Network error or server not responding
+            if (err.name === 'TypeError' && err.message.includes('fetch')) {
+                setError('Cannot connect to server. Please check your internet connection.');
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
         }
     };
 
